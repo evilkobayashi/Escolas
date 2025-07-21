@@ -1,51 +1,95 @@
+# 🧑‍🏫 Chamada Virtual com Reconhecimento Facial e Tela Touchscreen
 
-# 🏫 Repositório de Projetos – Escola Professor Joaquim de Freitas
+## 📘 Descrição do Projeto
 
-## 📘 Introdução
-
-Este repositório reúne os projetos de melhorias desenvolvidos por alunos da **Escola Professor Joaquim de Freitas**, localizada em **Queimados**, no estado do **Rio de Janeiro**.  
-Os projetos foram criados durante as atividades educacionais das turmas **901** e **902**, com foco em tecnologia, inovação e soluções práticas para o ambiente escolar.
-
----
-
-## 🛠️ Projetos Desenvolvidos
-
-### 1. 💧 Monitoramento e Abastecimento de Caixa d'Água sem fio  (Finalização do Projeto)
-Sistema de controle de nível e abastecimento automático de caixas d’água utilizando comunicação sem fio entre sensores e uma central de controle baseada em Arduino.
-
-### 2. 🧑‍🏫 Chamada Virtual utilizando Raspberry Pi e Tela Touchscreen  (Idealizado)
-Dispositivo interativo com tela touchscreen para realizar chamadas de alunos de forma digital, facilitando o registro de presença pelos professores.
-
-### 3. 🌬️ Abertura e Fechamento Automático de Janelas  (Compra de Material Agendado)
-Sistema automatizado que abre e fecha janelas com base em sensores de temperatura, luz ou programação de horários, trazendo conforto térmico e eficiência energética.
-
-### 4. 🔐 Tranca Automática para os Armários dos Professores  (Compra de Material Agendado)
-Mecanismo eletrônico de travamento para armários, com acionamento via senha ou cartão RFID, aumentando a segurança dos pertences dos docentes.
-
-### 5. 📓 Caderno Virtual com Raspberry Pi e Tela Touchscreen  (Idealizado)
-Solução digital que permite aos alunos fazerem anotações em um caderno virtual sincronizado com a nuvem, usando uma interface com Raspberry Pi e tela sensível ao toque.
+Este projeto tem como objetivo modernizar o processo de chamada escolar por meio de um sistema interativo instalado em uma **Raspberry Pi** com **tela touchscreen**.  
+O sistema utiliza **reconhecimento facial** para identificar os alunos automaticamente e registrar a presença em uma interface amigável.
 
 ---
 
-## 🔗 Repositórios Individuais
+## 🛠️ Tecnologias Utilizadas
 
-> *(Adicionar os links dos repositórios específicos de cada projeto, se houver)*
+- **Raspberry Pi 3 ou 4**  
+- **Tela Touchscreen 7" oficial ou compatível**  
+- **OpenCV** (para reconhecimento facial)  
+- **Python** (backend e interface gráfica)  
+- **SQLite ou Google Sheets** (para armazenamento dos dados de presença)  
+- **Flask ou Kivy** (para a interface do usuário)
 
 ---
 
-## 📷 Imagens e Vídeos
+## 🎯 Funcionalidades
 
-> *(Espaço reservado para inserção futura de imagens dos projetos, vídeos das demonstrações ou fotos das turmas participantes)*
+- 📸 **Reconhecimento Facial** dos alunos ao se posicionarem em frente à câmera
+- 📝 Registro automático de **data, hora e nome** do aluno
+- 📊 Exibição de **relatórios de presença**
+- 🧑‍💻 Interface touchscreen com feedback visual
+- 🔐 Área administrativa protegida por senha para consultar e exportar dados
+
+---
+
+## 💻 Instalação
+
+1. Clone este repositório:
+```bash
+git clone https://github.com/seuusuario/chamada-virtual.git
+```
+
+2. Instale as dependências:
+```bash
+sudo apt update
+sudo apt install python3-opencv python3-pip
+pip3 install face_recognition flask kivy
+```
+
+3. Execute o sistema:
+```bash
+python3 app.py
+```
+
+---
+
+## 📂 Estrutura do Projeto
+
+```
+chamada-virtual/
+├── app.py
+├── recognizer/
+│   ├── capture_faces.py
+│   ├── trained_faces/
+│   └── face_utils.py
+├── database/
+│   └── presencas.db
+├── templates/
+│   └── interface.html
+├── static/
+│   └── style.css
+└── README.md
+```
+
+---
+
+## 📷 Imagens do Projeto
+
+> *(Espaço reservado para fotos do dispositivo em uso ou interface do sistema)*  
+📷 **[INSERIR FOTO AQUI]**
+
+---
+
+## ⚠️ Avisos
+
+- Para melhor desempenho do reconhecimento facial, a iluminação do ambiente deve ser adequada.
+- Recomendável treinar o sistema com múltiplas imagens de cada aluno em diferentes ângulos.
 
 ---
 
 ## ✨ Créditos
 
 **Professor responsável:** André Veiga  
-**Turmas:** 901 e 902  
+**Turmas envolvidas:** 901 e 902  
 **Escola:** Professor Joaquim de Freitas – Queimados/RJ  
 **Ano:** 2025
 
 ---
 
-Orgulhosamente feito por alunos da rede pública com criatividade e tecnologia! 🚀
+Modernizando a educação com tecnologia de ponta! 🚀
