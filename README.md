@@ -1,41 +1,86 @@
+# 🔐 Tranca Automática com RFID, LCD e Monitoramento de Bateria
 
-# 🏫 Repositório de Projetos – Escola Professor Joaquim de Freitas
+## 📘 Descrição do Projeto
 
-## 📘 Introdução
-
-Este repositório reúne os projetos de melhorias desenvolvidos por alunos da **Escola Professor Joaquim de Freitas**, localizada em **Queimados**, no estado do **Rio de Janeiro**.  
-Os projetos foram criados durante as atividades educacionais das turmas **901** e **902**, com foco em tecnologia, inovação e soluções práticas para o ambiente escolar.
-
----
-
-## 🛠️ Projetos Desenvolvidos
-
-### 1. 💧 Monitoramento e Abastecimento de Caixa d'Água sem fio  (Finalização do Projeto)
-Sistema de controle de nível e abastecimento automático de caixas d’água utilizando comunicação sem fio entre sensores e uma central de controle baseada em Arduino.
-
-### 2. 🧑‍🏫 Chamada Virtual utilizando Raspberry Pi e Tela Touchscreen  (Idealizado)
-Dispositivo interativo com tela touchscreen para realizar chamadas de alunos de forma digital, facilitando o registro de presença pelos professores.
-
-### 3. 🌬️ Abertura e Fechamento Automático de Janelas  (Compra de Material Agendado)
-Sistema automatizado que abre e fecha janelas com base em sensores de temperatura, luz ou programação de horários, trazendo conforto térmico e eficiência energética.
-
-### 4. 🔐 Tranca Automática para os Armários dos Professores  (Compra de Material Agendado)
-Mecanismo eletrônico de travamento para armários, com acionamento via senha ou cartão RFID, aumentando a segurança dos pertences dos docentes.
-
-### 5. 📓 Caderno Virtual com Raspberry Pi e Tela Touchscreen  (Idealizado)
-Solução digital que permite aos alunos fazerem anotações em um caderno virtual sincronizado com a nuvem, usando uma interface com Raspberry Pi e tela sensível ao toque.
+Este projeto implementa uma **tranca automática inteligente** utilizando Arduino Nano.  
+A abertura da tranca é feita por meio de **cartões RFID autorizados**, com **visualização em LCD** e monitoramento da **porcentagem da bateria** que alimenta o sistema.
 
 ---
 
-## 🔗 Repositórios Individuais
+## 🧩 Componentes Utilizados
 
-> *(Adicionar os links dos repositórios específicos de cada projeto, se houver)*
+- ✅ **Arduino Nano**
+- 📘 **Módulo RFID RC522** – para leitura de cartões e chaveiros RFID
+- 🔒 **Tranca Solenóide 12V** – controlada por um **módulo de relé**
+- 🖥️ **Display LCD 16x2 com interface I2C** – para exibir mensagens como “Acesso Autorizado”
+- 🔋 **Sensor de Tensão** – para monitorar o nível da bateria (ligado ao pino A0)
+- ⚡ **Fonte Externa de 12V** – para alimentar a tranca e o sistema
 
 ---
 
-## 📷 Imagens e Vídeos
+## ⚙️ Funcionalidades
 
-> *(Espaço reservado para inserção futura de imagens dos projetos, vídeos das demonstrações ou fotos das turmas participantes)*
+- Leitura de cartões RFID com validação
+- Abertura automática da tranca por 5 segundos ao detectar cartão autorizado
+- Exibição de mensagens no LCD:
+  - “Aguardando cartão...”
+  - “Acesso autorizado”
+  - “Acesso negado”
+  - “Bateria: XX%”
+- Monitoramento da tensão da bateria com cálculo de porcentagem (12.6V = 100%, 11.1V = 0%)
+
+---
+
+## 🔌 Conexões
+
+### 🧠 Módulo RFID RC522 (alimentado com 3.3V)
+
+| Pino RC522 | Arduino Nano |
+|------------|---------------|
+| 3.3V       | 3V3           |
+| GND        | GND           |
+| RST        | D9            |
+| MISO       | D12           |
+| MOSI       | D11           |
+| SCK        | D13           |
+| SDA (SS)   | D10           |
+
+### 🖥️ LCD 16x2 I2C
+
+| Pino LCD | Arduino Nano |
+|----------|---------------|
+| GND      | GND           |
+| VCC      | 5V            |
+| SDA      | A4            |
+| SCL      | A5            |
+
+### 🔋 Sensor de Tensão
+
+- Sinal de saída (S) → A0  
+- GND → GND  
+- Entrada de tensão: positivo da bateria (via divisor de tensão)
+
+### 🔒 Módulo Relé
+
+| Pino Relé | Arduino Nano |
+|-----------|---------------|
+| GND       | GND           |
+| VCC       | 5V            |
+| IN        | D7            |
+
+---
+
+## ⚠️ Importante: Divisor de Tensão
+
+O Arduino Nano não pode ler tensões maiores que 5V diretamente.  
+Use um **divisor de tensão** ou módulo de sensor de tensão para reduzir a tensão da bateria (12V) antes de conectar ao pino A0.
+
+---
+
+## 📷 Esquemático
+
+> *(Inserir aqui a imagem do esquemático do projeto)*  
+📷 **[INSERIR ESQUEMÁTICO AQUI]**
 
 ---
 
@@ -46,6 +91,9 @@ Solução digital que permite aos alunos fazerem anotações em um caderno virtu
 **Escola:** Professor Joaquim de Freitas – Queimados/RJ  
 **Ano:** 2025
 
+---
+
+Segurança inteligente na palma da mão! 🚪🔐
 ---
 
 Orgulhosamente feito por alunos da rede pública com criatividade e tecnologia! 🚀
