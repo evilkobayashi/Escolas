@@ -1,51 +1,38 @@
+# 📓 Caderno Virtual com Raspberry Pi e Tela Touchscreen
 
-# 🏫 Repositório de Projetos – Escola Professor Joaquim de Freitas
+## 📘 Descrição do Projeto
 
-## 📘 Introdução
-
-Este repositório reúne os projetos de melhorias desenvolvidos por alunos da **Escola Professor Joaquim de Freitas**, localizada em **Queimados**, no estado do **Rio de Janeiro**.  
-Os projetos foram criados durante as atividades educacionais das turmas **901** e **902**, com foco em tecnologia, inovação e soluções práticas para o ambiente escolar.
-
----
-
-## 🛠️ Projetos Desenvolvidos
-
-### 1. 💧 Monitoramento e Abastecimento de Caixa d'Água sem fio  (Finalização do Projeto)
-Sistema de controle de nível e abastecimento automático de caixas d’água utilizando comunicação sem fio entre sensores e uma central de controle baseada em Arduino.
-
-### 2. 🧑‍🏫 Chamada Virtual utilizando Raspberry Pi e Tela Touchscreen  (Idealizado)
-Dispositivo interativo com tela touchscreen para realizar chamadas de alunos de forma digital, facilitando o registro de presença pelos professores.
-
-### 3. 🌬️ Abertura e Fechamento Automático de Janelas  (Compra de Material Agendado)
-Sistema automatizado que abre e fecha janelas com base em sensores de temperatura, luz ou programação de horários, trazendo conforto térmico e eficiência energética.
-
-### 4. 🔐 Tranca Automática para os Armários dos Professores  (Compra de Material Agendado)
-Mecanismo eletrônico de travamento para armários, com acionamento via senha ou cartão RFID, aumentando a segurança dos pertences dos docentes.
-
-### 5. 📓 Caderno Virtual com Raspberry Pi e Tela Touchscreen  (Idealizado)
-Solução digital que permite aos alunos fazerem anotações em um caderno virtual sincronizado com a nuvem, usando uma interface com Raspberry Pi e tela sensível ao toque.
+Este projeto tem como objetivo fornecer uma alternativa digital ao caderno tradicional, utilizando um dispositivo baseado em **Raspberry Pi** com **tela touchscreen**.  
+O sistema permite que os alunos escrevam, desenhem e salvem suas anotações diretamente em arquivos digitais que são sincronizados automaticamente com a **nuvem** (Google Drive, Dropbox, etc.), garantindo portabilidade e segurança dos dados.
 
 ---
 
-## 🔗 Repositórios Individuais
+## 🛠️ Componentes Utilizados
 
-> *(Adicionar os links dos repositórios específicos de cada projeto, se houver)*
-
----
-
-## 📷 Imagens e Vídeos
-
-> *(Espaço reservado para inserção futura de imagens dos projetos, vídeos das demonstrações ou fotos das turmas participantes)*
-
----
-
-## ✨ Créditos
-
-**Professor responsável:** André Veiga  
-**Turmas:** 901 e 902  
-**Escola:** Professor Joaquim de Freitas – Queimados/RJ  
-**Ano:** 2025
+- **Raspberry Pi 3 ou 4**  
+- **Tela Touchscreen 7" oficial ou compatível**  
+- **Caneta capacitiva (opcional)**  
+- **Cartão microSD com sistema operacional Raspberry Pi OS**  
+- **Conexão Wi-Fi** para sincronização com a nuvem  
+- **Serviço de sincronização (rclone, Google Drive API, Dropbox API, etc.)**
 
 ---
 
-Orgulhosamente feito por alunos da rede pública com criatividade e tecnologia! 🚀
+## 🎯 Funcionalidades
+
+- 🖊️ Escrita e desenho direto na tela touchscreen  
+- 💾 Salvamento automático de anotações como arquivos de imagem ou PDF  
+- ☁️ Sincronização com a nuvem (Google Drive, Dropbox, etc.)  
+- 📂 Organização por pastas, disciplinas ou datas  
+- 🔍 Interface intuitiva para alunos
+
+---
+
+## 💻 Instalação
+
+1. Instale o sistema operacional Raspberry Pi OS no cartão microSD.
+2. Instale as bibliotecas necessárias:
+```bash
+sudo apt update
+sudo apt install python3-pip python3-tk
+pip3 install pillow flask
