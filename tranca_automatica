@@ -1,0 +1,216 @@
+/*
+  Tranca Automática RFID com Monitor de Bateria
+  ==============================================
+  Controla uma tranca com RFID, exibe status em um LCD e monitora a tensão
+  da bateria, tudo de forma não-bloqueante usando millis().
+
+  Funcionalidades:
+  - Lê cartões RFID e compara com uma lista de autorizados.
+  - Aciona um relé por 5 segundos para cartões autorizados.
+  - Mede a tensão de uma bateria 12V e exibe em porcentagem.
+  - Exibe todas as informações em um display LCD 16x2 I2C.
+*/
+
+// --- Bibliotecas ---
+#include <SPI.h>
+#include <MFRC522.h>
+#include <Wire.h>
+#include <LiquidCrystal_I2C.h>
+
+// --- Pinos e Configurações ---
+#define SS_PIN    10  // Pino SDA (SS) do MFRC522
+#define RST_PIN   9   // Pino de Reset do MFRC522
+#define RELAY_PIN 7   // Pino que controla o módulo relé
+#define VOLTAGE_SENSOR_PIN A0 // Pino analógico para o sensor de tensão
+
+// AJUSTE ESTE VALOR CONFORME SEU DIVISOR DE TENSÃO!
+// Ex: Para um divisor com R1=30k e R2=7.5k, o fator é (30000 + 7500) / 7500 = 5.0
+const float FATOR_DIVISOR = 5.0;
+
+// --- Configuração dos Componentes ---
+MFRC522 mfrc522(SS_PIN, RST_PIN);
+LiquidCrystal_I2C lcd(0x27, 16, 2); // Endereço I2C pode ser 0x3F
+
+// --- Lista de Cartões Autorizados (SUBSTITUA PELOS SEUS!) ---
+String authorizedTags[] = {
+  "8A B3 1F C8",  // UID Exemplo 1
+  "12 34 56 78",  // UID Exemplo 2
+  "AB CD EF 01"   // UID Exemplo 3
+};
+
+// --- Variáveis de Controle (não-bloqueante) ---
+unsigned long relayOpenTime = 0;
+const long relayDuration = 5000; // 5 segundos
+
+unsigned long lastScreenUpdateTime = 0;
+const long screenUpdateInterval = 1000; // Atualiza a tela a cada 1 segundo
+
+int batteryPercentage = 0;
+String currentLcdLine1 = "";
+String currentLcdLine2 = "";
+
+// Estados da Interface
+enum SystemState { IDLE, ACCESS_GRANTED, ACCESS_DENIED };
+SystemState currentState = IDLE;
+unsigned long messageStartTime = 0;
+const long messageDuration = 2000; // Mensagens de acesso duram 2 segundos
+
+void setup() {
+  Serial.begin(9600);
+  SPI.begin();
+  mfrc522.PCD_Init();
+  
+  // Inicia o LCD
+  lcd.init();
+  lcd.backlight();
+  
+  // Configura o pino do relé
+  pinMode(RELAY_PIN, OUTPUT);
+  digitalWrite(RELAY_PIN, LOW); // Garante que a tranca comece fechada
+
+  updateBatteryPercentage(); // Faz a primeira leitura da bateria
+  Serial.println("Sistema de Tranca Iniciado.");
+}
+
+void loop() {
+  // Tarefas que rodam continuamente
+  handleRFID();
+  updateRelayState();
+  updateSystemState();
+  
+  // Tarefa que roda em intervalos (para não sobrecarregar)
+  if (millis() - lastScreenUpdateTime >= screenUpdateInterval) {
+    lastScreenUpdateTime = millis();
+    updateBatteryPercentage();
+  }
+  
+  updateLCD();
+}
+
+// --- Funções Principais ---
+
+void handleRFID() {
+  if (!mfrc522.PICC_IsNewCardPresent() || !mfrc522.PICC_ReadCardSerial()) {
+    return;
+  }
+
+  String uid = getUidAsString();
+  Serial.print("Cartao lido: ");
+  Serial.println(uid);
+
+  if (isAuthorized(uid)) {
+    grantAccess();
+  } else {
+    denyAccess();
+  }
+
+  mfrc522.PICC_HaltA();
+  mfrc522.PCD_StopCrypto1();
+}
+
+void updateRelayState() {
+  // Se o relé está ativo e já se passaram 5 segundos, desative-o
+  if (digitalRead(RELAY_PIN) == HIGH && (millis() - relayOpenTime >= relayDuration)) {
+    digitalWrite(RELAY_PIN, LOW);
+    Serial.println("Tranca fechada.");
+  }
+}
+
+void updateSystemState() {
+  // Se estamos exibindo uma mensagem temporária e o tempo acabou, volta ao estado IDLE
+  if ((currentState == ACCESS_GRANTED || currentState == ACCESS_DENIED) && (millis() - messageStartTime >= messageDuration)) {
+    currentState = IDLE;
+  }
+}
+
+void updateLCD() {
+  String line1, line2;
+
+  switch (currentState) {
+    case IDLE:
+      line1 = "Aguardando...";
+      line2 = "Bateria: " + String(batteryPercentage) + "%";
+      break;
+    case ACCESS_GRANTED:
+      line1 = "Acesso";
+      line2 = "Autorizado!";
+      break;
+    case ACCESS_DENIED:
+      line1 = "Acesso Negado!";
+      line2 = "";
+      break;
+  }
+
+  // Apenas atualiza o LCD se o texto mudou (evita piscar)
+  if (line1 != currentLcdLine1 || line2 != currentLcdLine2) {
+    currentLcdLine1 = line1;
+    currentLcdLine2 = line2;
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print(line1);
+    lcd.setCursor(0, 1);
+    lcd.print(line2);
+  }
+}
+
+void updateBatteryPercentage() {
+  int sensorValue = analogRead(VOLTAGE_SENSOR_PIN);
+  float arduinoVoltage = sensorValue * (5.0 / 1023.0);
+  float batteryVoltage = arduinoVoltage * FATOR_DIVISOR;
+
+  // Mapeia a tensão para a porcentagem (11.1V = 0%, 12.6V = 100%)
+  // Usamos float para a conta e depois convertemos para int
+  float percentage = ((batteryVoltage - 11.1) / (12.6 - 11.1)) * 100.0;
+  
+  // Garante que a porcentagem fique entre 0 e 100
+  batteryPercentage = constrain(percentage, 0, 100);
+
+  Serial.print("Tensão da Bateria: ");
+  Serial.print(batteryVoltage);
+  Serial.print("V, Porcentagem: ");
+  Serial.print(batteryPercentage);
+  Serial.println("%");
+}
+
+
+// --- Funções Auxiliares ---
+
+void grantAccess() {
+  Serial.println("Acesso AUTORIZADO.");
+  currentState = ACCESS_GRANTED;
+  messageStartTime = millis();
+  
+  digitalWrite(RELAY_PIN, HIGH); // Aciona o relé
+  relayOpenTime = millis();      // Inicia o timer para fechar a tranca
+}
+
+void denyAccess() {
+  Serial.println("Acesso NEGADO.");
+  currentState = ACCESS_DENIED;
+  messageStartTime = millis();
+}
+
+bool isAuthorized(String uid) {
+  int numTags = sizeof(authorizedTags) / sizeof(authorizedTags[0]);
+  for (int i = 0; i < numTags; i++) {
+    if (uid.equals(authorizedTags[i])) {
+      return true;
+    }
+  }
+  return false;
+}
+
+String getUidAsString() {
+  String uid = "";
+  for (byte i = 0; i < mfrc522.uid.size; i++) {
+    if (i > 0) {
+      uid.concat(" ");
+    }
+    if (mfrc522.uid.uidByte[i] < 0x10) {
+      uid.concat("0");
+    }
+    uid.concat(String(mfrc522.uid.uidByte[i], HEX));
+  }
+  uid.toUpperCase();
+  return uid;
+}
