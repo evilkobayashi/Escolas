@@ -1,0 +1,23 @@
+{
+  "name": "backend",
+  "private": true,
+  "main": "src/server.ts",
+  "scripts": {
+    "dev": "tsnd --env-file=.env.local.development --transpile-only ./src/server.ts"
+  },
+  "devDependencies": {
+    "@types/bun": "latest",
+    "@types/express": "^5.0.3",
+    "@types/jsonwebtoken": "^9.0.10",
+    "prisma": "^6.13.0",
+    "ts-node-dev": "^2.0.0"
+  },
+  "peerDependencies": {
+    "typescript": "^5"
+  },
+  "dependencies": {
+    "@prisma/client": "^6.13.0",
+    "express": "^5.1.0",
+    "jsonwebtoken": "^9.0.2"
+  }
+}
