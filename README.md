@@ -16,10 +16,10 @@ Sistema de controle de nível e abastecimento automático de caixas d’água ut
 ### 2. 🧑‍🏫 Chamada Virtual utilizando Raspberry Pi e Tela Touchscreen  (Idealizado)
 Dispositivo interativo com tela touchscreen para realizar chamadas de alunos de forma digital, facilitando o registro de presença pelos professores.
 
-### 3. 🌬️ Abertura e Fechamento Automático de Janelas  (Compra de Material Agendado)
+### 3. 🌬️ Abertura e Fechamento Automático de Janelas  (Material Comprado)
 Sistema automatizado que abre e fecha janelas com base em sensores de temperatura, luz ou programação de horários, trazendo conforto térmico e eficiência energética.
 
-### 4. 🔐 Tranca Automática para os Armários dos Professores  (Compra de Material Agendado)
+### 4. 🔐 Tranca Automática para os Armários dos Professores  (Material Comprado)
 Mecanismo eletrônico de travamento para armários, com acionamento via senha ou cartão RFID, aumentando a segurança dos pertences dos docentes.
 
 ### 5. 📓 Caderno Virtual com Raspberry Pi e Tela Touchscreen  (Idealizado)
