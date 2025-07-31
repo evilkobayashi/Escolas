@@ -29,9 +29,11 @@ Solução digital que permite aos alunos fazerem anotações em um caderno virtu
 
 ## 🔗 Repositórios Individuais
 
-> *(Adicionar os links dos repositórios específicos de cada projeto, se houver)*
-
----
+https://github.com/evilkobayashi/Escolas/tree/Monitoramento-de-Caixa-d'%C3%81gua
+https://github.com/evilkobayashi/Escolas/tree/Chamada-Virtual-com-Raspberry-Pi
+https://github.com/evilkobayashi/Escolas/tree/Abertura-e-Fechamento-Autom%C3%A1tico-de-Janelas
+https://github.com/evilkobayashi/Escolas/tree/Tranca-Autom%C3%A1tica-para-os-Arm%C3%A1rios-dos-Professores
+https://github.com/evilkobayashi/Escolas/tree/Caderno-Virtual-com-Raspberry-Pi-e-Tela-Touchscreen-com-sincroniza%C3%A7%C3%A3o-na-Nuvem
 
 ## 📷 Imagens e Vídeos
 
