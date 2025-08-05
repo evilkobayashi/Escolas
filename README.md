@@ -11,7 +11,7 @@ O sistema utiliza **reconhecimento facial** para identificar os alunos automatic
 
 - **Raspberry Pi 3 ou 4**  
 - **Tela Touchscreen 7" oficial ou compatível**  
-- **PyTorch** (para reconhecimento facial)  
+- **TensorflowJS** (para reconhecimento facial)  
 - **NodeJS** (backend)  
 - **SQLite ou Google Sheets** (para armazenamento dos dados de presença)  
 - **React** (para a interface do usuário)
