@@ -1,9 +1,8 @@
-import { UserController } from '../controllers/UserController'
 import { Router, IRouter } from 'express'
-
+import { SendPhotoController } from '../controllers/photo/SendPhoto'
 
 const router: IRouter = Router()
-
-router.get('/', UserController)
+    
+router.get('/', SendPhotoController)
 
 export { router as UserRoutes }
