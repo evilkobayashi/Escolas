@@ -9,8 +9,8 @@ async function AuthController(req: Request, res: Response) {
     try {
         const { register, password } = studentAuthSchema.parse(req.body);
 
-        const userFact = new PrismaUserFactory();
-        const makeAuth = MakeAuth(userFact);
+        const prismaFact = new PrismaUserFactory();
+        const makeAuth = MakeAuth(prismaFact);
 
         const { user } = await makeAuth.exec({ register, password });
 

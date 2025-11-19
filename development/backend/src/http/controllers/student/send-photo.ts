@@ -1,0 +1,3 @@
+function SendPhotoController() {}
+
+export { SendPhotoController };
