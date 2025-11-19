@@ -1,32 +1,58 @@
 services:
-  nginx_service:
-    container_name: nginx
-    build:
-      context: nginx
-      dockerfile: Dockerfile
+  db_service:
+    image: postgres:18
+    environment:
+      - POSTGRES_USER=user_root
+      - POSTGRES_PASSWORD=pwd_root
+      - POSTGRES_DB=mydb
+    volumes:
+      - employee_pgdata:/var/lib/postgresql
     networks:
-      - my_network
+      - network
+    ports:
+      - 5432:5432
+    restart: always
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U employee_user -d employee_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 5
 
-  backend:
+  backend_service:
     container_name: backend
     build:
       context: ./backend
       dockerfile: Dockerfile
     depends_on:
-      - nginx
+      db_service:
+       condition: service_healthy
     networks:
-      - my_network
+      - network
 
-  frontend:
+  frontend_service:
     container_name: frontend
     build:
       context: ./frontend
       dockerfile: Dockerfile
     depends_on:
-      - nginx
+      - db_service
+      - backend_service
     networks:
-      - my_network
+      - network
 
-  
+  nginx_service:
+    container_name: nginx
+    build:
+      context: nginx
+      dockerfile: Dockerfile
+    depends_on:
+      - backend_service
+      - frontend_service
+    ports:
+      - 80:80
+    networks:
+      - network
+    restart: always
+
 networks:
-  my_network:
+  network:

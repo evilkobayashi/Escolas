@@ -35,3 +35,5 @@ config.json
 
 # Finder (MacOS) folder config
 .DS_Store
+
+/generated/prisma
