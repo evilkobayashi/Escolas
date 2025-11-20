@@ -6,7 +6,7 @@ services:
       - POSTGRES_PASSWORD=pwd_root
       - POSTGRES_DB=mydb
     volumes:
-      - employee_pgdata:/var/lib/postgresql
+      - employee_pgdata:/var/lib/postgresql 
     networks:
       - network
     ports:
